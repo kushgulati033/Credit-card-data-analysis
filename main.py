@@ -201,3 +201,58 @@ print(df.groupby('Purpose')['Credit amount'].agg(['mean', 'median', 'count']).so
 print("\nTop Purpose by Sex:")
 print(pd.crosstab(df['Sex'], df['Purpose'], normalize='index').round(3) * 100, "%")
 
+# Create risk indicators
+df['High_Credit'] = df['Credit amount'] > df['Credit amount'].quantile(0.75)
+df['Long_Duration'] = df['Duration'] > df['Duration'].quantile(0.75)
+df['Risk_Score'] = 0
+
+# Risk factors:
+# 1. High credit amount + long duration
+df.loc[(df['High_Credit'] & df['Long_Duration']), 'Risk_Score'] += 2
+
+# 2. No checking account with high credit
+df.loc[(df['Checking account'].isnull() & df['High_Credit']), 'Risk_Score'] += 1
+
+# 3. Young age with high credit
+df.loc[(df['Age'] < 25 & df['High_Credit']), 'Risk_Score'] += 1
+
+# 4. Unemployed (Job=0) with credit
+df.loc[(df['Job'] == 0), 'Risk_Score'] += 1
+
+plt.figure(figsize=(14, 10))
+
+# Risk score distribution
+plt.subplot(2, 2, 1)
+sns.countplot(x='Risk_Score', data=df)
+plt.title('Risk Score Distribution')
+
+# Risk score by purpose
+plt.subplot(2, 2, 2)
+sns.boxplot(x='Purpose', y='Risk_Score', data=df)
+plt.xticks(rotation=90)
+plt.title('Risk Score by Purpose')
+
+# Credit-to-age ratio (another risk indicator)
+df['Credit_Age_Ratio'] = df['Credit amount'] / df['Age']
+plt.subplot(2, 2, 3)
+sns.histplot(df['Credit_Age_Ratio'], kde=True)
+plt.title('Credit Amount to Age Ratio')
+
+# Credit-duration ratio
+df['Credit_Duration_Ratio'] = df['Credit amount'] / df['Duration']
+plt.subplot(2, 2, 4)
+sns.histplot(df['Credit_Duration_Ratio'], kde=True)
+plt.title('Credit Amount to Duration Ratio')
+
+plt.tight_layout()
+plt.show()
+
+# Statistical analysis
+print("High Risk Profile Analysis:")
+high_risk = df[df['Risk_Score'] >= 2]
+print(f"\nPercentage of high-risk loans: {len(high_risk) / len(df) * 100:.2f}%")
+
+print("\nDemographic breakdown of high-risk loans:")
+for col in ['Sex', 'Age_Group', 'Purpose', 'Housing']:
+    print(f"\n{col} distribution in high-risk group:")
+    print(high_risk[col].value_counts(normalize=True).round(3) * 100, "%")
