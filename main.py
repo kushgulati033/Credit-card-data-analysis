@@ -30,3 +30,20 @@ plt.figure(figsize=(10, 6))
 sns.histplot(data=df, x='Credit amount', kde=True)
 plt.title('Credit Amount Distribution')
 plt.show()
+
+# Correlation between numerical variables
+corr = df[['Age', 'Job', 'Credit amount', 'Duration']].corr()
+plt.figure(figsize=(8, 6))
+sns.heatmap(corr, annot=True, cmap='coolwarm')
+plt.title('Correlation Matrix')
+plt.show()
+
+# Credit amount vs Duration with Purpose
+plt.figure(figsize=(12, 8))
+sns.scatterplot(data=df, x='Credit amount', y='Duration', hue='Purpose')
+plt.title('Credit Amount vs Duration by Purpose')
+plt.show()
+
+# Check average credit amount by sex and job
+avg_credit = df.groupby(['Sex', 'Job'])['Credit amount'].mean().reset_index()
+print(avg_credit)
