@@ -172,3 +172,32 @@ sns.heatmap(pivot, annot=True, cmap='YlGnBu', fmt='.0f')
 plt.title('Average Credit Amount by Account Types')
 plt.tight_layout()
 plt.show()
+
+plt.figure(figsize=(12, 6))
+
+# Sort purposes by average credit amount
+purpose_avg = df.groupby('Purpose')['Credit amount'].mean().sort_values(ascending=False)
+
+# Bar chart of credit amount by purpose
+plt.subplot(1, 2, 1)
+sns.barplot(x=purpose_avg.values, y=purpose_avg.index)
+plt.title('Average Credit Amount by Purpose')
+plt.xlabel('Average Credit Amount')
+
+# Box plot for distribution
+plt.subplot(1, 2, 2)
+purpose_order = purpose_avg.index.tolist()
+sns.boxplot(y='Purpose', x='Credit amount', data=df, order=purpose_order)
+plt.title('Credit Amount Distribution by Purpose')
+
+plt.tight_layout()
+plt.show()
+
+# Statistical analysis
+print("Credit Amount Statistics by Purpose:")
+print(df.groupby('Purpose')['Credit amount'].agg(['mean', 'median', 'count']).sort_values('mean', ascending=False))
+
+# Purpose by demographic analysis
+print("\nTop Purpose by Sex:")
+print(pd.crosstab(df['Sex'], df['Purpose'], normalize='index').round(3) * 100, "%")
+
