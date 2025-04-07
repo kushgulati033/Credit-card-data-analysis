@@ -82,4 +82,4 @@ analyze_risk_factors()
 This analysis was conducted using Python's data science ecosystem, particularly pandas for data manipulation and scikit-learn for machine learning components.
 
 ## Contact
-For questions or feedback about this analysis, please contact [Your Name] at [kushgulati150@gmail.com].
+For questions or feedback about this analysis, please contact [Kush Gulati] at [kushgulati150@gmail.com].
