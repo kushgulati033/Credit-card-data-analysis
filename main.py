@@ -47,3 +47,13 @@ plt.show()
 # Check average credit amount by sex and job
 avg_credit = df.groupby(['Sex', 'Job'])['Credit amount'].mean().reset_index()
 print(avg_credit)
+
+# Create age groups
+bins = [18, 25, 35, 50, 75]
+labels = ['Young', 'Adult', 'Middle-aged', 'Senior']
+df['Age_Group'] = pd.cut(df['Age'], bins=bins, labels=labels)
+
+# Create credit amount categories
+bins = [0, 1000, 5000, 10000, 20000]
+labels = ['Low', 'Medium', 'High', 'Very High']
+df['Credit_Category'] = pd.cut(df['Credit amount'], bins=bins, labels=labels)
