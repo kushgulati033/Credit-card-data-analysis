@@ -103,3 +103,30 @@ print("\nProfile of High-Credit Customers:")
 for col in ['Sex', 'Job', 'Housing', 'Age_Group']:
     print(f"\n{col} distribution in high-credit group:")
     print(high_credit[col].value_counts(normalize=True).round(3) * 100, "%")
+
+plt.figure(figsize=(12, 6))
+
+# Scatter plot with regression line
+plt.subplot(1, 2, 1)
+sns.regplot(x='Duration', y='Credit amount', data=df)
+plt.title('Credit Amount vs Duration')
+
+# Calculate correlation
+duration_corr = df['Duration'].corr(df['Credit amount'])
+plt.xlabel(f'Duration (months) - Correlation: {duration_corr:.3f}')
+
+# Grouped bar chart of average credit by duration
+plt.subplot(1, 2, 2)
+bins = [0, 12, 24, 36, 48, 72]
+df['Duration_Group'] = pd.cut(df['Duration'], bins=bins)
+avg_by_duration = df.groupby('Duration_Group')['Credit amount'].mean().reset_index()
+sns.barplot(x='Duration_Group', y='Credit amount', data=avg_by_duration)
+plt.title('Average Credit Amount by Duration Group')
+plt.xticks(rotation=45)
+
+plt.tight_layout()
+plt.show()
+
+# Statistical analysis
+print("Credit Amount Statistics by Duration Groups:")
+print(df.groupby('Duration_Group')['Credit amount'].agg(['mean', 'median', 'count']))
