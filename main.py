@@ -130,3 +130,45 @@ plt.show()
 # Statistical analysis
 print("Credit Amount Statistics by Duration Groups:")
 print(df.groupby('Duration_Group')['Credit amount'].agg(['mean', 'median', 'count']))
+
+plt.figure(figsize=(12, 6))
+
+# Credit by saving accounts
+plt.subplot(1, 2, 1)
+sns.boxplot(x='Saving accounts', y='Credit amount', data=df)
+plt.title('Credit Amount by Saving Account Status')
+plt.xticks(rotation=45)
+
+# Credit by checking accounts
+plt.subplot(1, 2, 2)
+sns.boxplot(x='Checking account', y='Credit amount', data=df)
+plt.title('Credit Amount by Checking Account Status')
+plt.xticks(rotation=45)
+
+plt.tight_layout()
+plt.show()
+
+# Statistical analysis
+print("Credit Amount Statistics by Account Type:")
+account_types = ['Saving accounts', 'Checking account']
+for acc_type in account_types:
+    print(f"\nBy {acc_type}:")
+    print(df.groupby(acc_type)['Credit amount'].agg(['mean', 'median', 'count']))
+
+# Joint analysis of saving and checking
+print("\nJoint Analysis of Saving and Checking Accounts:")
+pivot = pd.pivot_table(
+    df,
+    values='Credit amount',
+    index='Saving accounts',
+    columns='Checking account',
+    aggfunc='mean'
+)
+print(pivot)
+
+# Visualize the joint effect
+plt.figure(figsize=(10, 6))
+sns.heatmap(pivot, annot=True, cmap='YlGnBu', fmt='.0f')
+plt.title('Average Credit Amount by Account Types')
+plt.tight_layout()
+plt.show()
