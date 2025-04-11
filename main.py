@@ -1,3 +1,4 @@
+# Importing libraries
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -148,13 +149,6 @@ plt.xticks(rotation=45)
 plt.tight_layout()
 plt.show()
 
-# Statistical analysis
-print("Credit Amount Statistics by Account Type:")
-account_types = ['Saving accounts', 'Checking account']
-for acc_type in account_types:
-    print(f"\nBy {acc_type}:")
-    print(df.groupby(acc_type)['Credit amount'].agg(['mean', 'median', 'count']))
-
 # Joint analysis of saving and checking
 print("\nJoint Analysis of Saving and Checking Accounts:")
 pivot = pd.pivot_table(
@@ -247,12 +241,3 @@ plt.title('Credit Amount to Duration Ratio')
 plt.tight_layout()
 plt.show()
 
-# Statistical analysis
-print("High Risk Profile Analysis:")
-high_risk = df[df['Risk_Score'] >= 2]
-print(f"\nPercentage of high-risk loans: {len(high_risk) / len(df) * 100:.2f}%")
-
-print("\nDemographic breakdown of high-risk loans:")
-for col in ['Sex', 'Age_Group', 'Purpose', 'Housing']:
-    print(f"\n{col} distribution in high-risk group:")
-    print(high_risk[col].value_counts(normalize=True).round(3) * 100, "%")
