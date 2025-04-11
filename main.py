@@ -1,6 +1,5 @@
 # Importing libraries
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -83,8 +82,6 @@ plt.title('Credit Amount by Job Category')
 plt.subplot(2, 2, 4)
 sns.boxplot(x='Housing', y='Credit amount', data=df)
 plt.title('Credit Amount by Housing Type')
-
-plt.tight_layout()
 plt.show()
 
 # Statistical analysis
@@ -125,7 +122,6 @@ sns.barplot(x='Duration_Group', y='Credit amount', data=avg_by_duration)
 plt.title('Average Credit Amount by Duration Group')
 plt.xticks(rotation=45)
 
-plt.tight_layout()
 plt.show()
 
 # Statistical analysis
@@ -146,7 +142,6 @@ sns.boxplot(x='Checking account', y='Credit amount', data=df)
 plt.title('Credit Amount by Checking Account Status')
 plt.xticks(rotation=45)
 
-plt.tight_layout()
 plt.show()
 
 # Joint analysis of saving and checking
@@ -164,7 +159,6 @@ print(pivot)
 plt.figure(figsize=(10, 6))
 sns.heatmap(pivot, annot=True, cmap='YlGnBu', fmt='.0f')
 plt.title('Average Credit Amount by Account Types')
-plt.tight_layout()
 plt.show()
 
 plt.figure(figsize=(12, 6))
@@ -184,7 +178,6 @@ purpose_order = purpose_avg.index.tolist()
 sns.boxplot(y='Purpose', x='Credit amount', data=df, order=purpose_order)
 plt.title('Credit Amount Distribution by Purpose')
 
-plt.tight_layout()
 plt.show()
 
 # Statistical analysis
@@ -238,6 +231,5 @@ plt.subplot(2, 2, 4)
 sns.histplot(df['Credit_Duration_Ratio'], kde=True)
 plt.title('Credit Amount to Duration Ratio')
 
-plt.tight_layout()
 plt.show()
 
