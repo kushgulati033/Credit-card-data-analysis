@@ -84,24 +84,10 @@ sns.boxplot(x='Housing', y='Credit amount', data=df)
 plt.title('Credit Amount by Housing Type')
 plt.show()
 
-# Statistical analysis
-print("Average Credit Amount by Demographics:")
-demo_groups = ['Sex', 'Job', 'Housing']
-for group in demo_groups:
-    print(f"\nBy {group}:")
-    print(df.groupby(group)['Credit amount'].agg(['mean', 'median', 'count']))
 
 # Age correlation
 age_corr = df['Age'].corr(df['Credit amount'])
 print(f"\nCorrelation between Age and Credit Amount: {age_corr:.3f}")
-
-# Create a profile of high-credit customers
-high_credit = df[df['Credit amount'] > df['Credit amount'].quantile(0.75)]
-print("\nProfile of High-Credit Customers:")
-for col in ['Sex', 'Job', 'Housing', 'Age_Group']:
-    print(f"\n{col} distribution in high-credit group:")
-    print(high_credit[col].value_counts(normalize=True).round(3) * 100, "%")
-
 plt.figure(figsize=(12, 6))
 
 # Scatter plot with regression line
