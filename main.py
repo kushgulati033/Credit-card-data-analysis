@@ -94,6 +94,7 @@ plt.figure(figsize=(12, 6))
 plt.subplot(1, 2, 1)
 sns.regplot(x='Duration', y='Credit amount', data=df)
 plt.title('Credit Amount vs Duration')
+plt.show()
 
 # Calculate correlation
 duration_corr = df['Duration'].corr(df['Credit amount'])
