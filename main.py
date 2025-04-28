@@ -84,17 +84,30 @@ sns.boxplot(x='Housing', y='Credit amount', data=df)
 plt.title('Credit Amount by Housing Type')
 plt.show()
 
+# Statistical analysis
+print("Average Credit Amount by Demographics:")
+demo_groups = ['Sex', 'Job', 'Housing']
+for group in demo_groups:
+    print(f"\nBy {group}:")
+    print(df.groupby(group)['Credit amount'].agg(['mean', 'median', 'count']))
 
 # Age correlation
 age_corr = df['Age'].corr(df['Credit amount'])
 print(f"\nCorrelation between Age and Credit Amount: {age_corr:.3f}")
+
+# Create a profile of high-credit customers
+high_credit = df[df['Credit amount'] > df['Credit amount'].quantile(0.75)]
+print("\nProfile of High-Credit Customers:")
+for col in ['Sex', 'Job', 'Housing', 'Age_Group']:
+    print(f"\n{col} distribution in high-credit group:")
+    print(high_credit[col].value_counts(normalize=True).round(3) * 100, "%")
+
 plt.figure(figsize=(12, 6))
 
 # Scatter plot with regression line
 plt.subplot(1, 2, 1)
 sns.regplot(x='Duration', y='Credit amount', data=df)
 plt.title('Credit Amount vs Duration')
-plt.show()
 
 # Calculate correlation
 duration_corr = df['Duration'].corr(df['Credit amount'])
@@ -122,7 +135,6 @@ plt.subplot(1, 2, 1)
 sns.boxplot(x='Saving accounts', y='Credit amount', data=df)
 plt.title('Credit Amount by Saving Account Status')
 plt.xticks(rotation=45)
-plt.show()
 
 # Credit by checking accounts
 plt.subplot(1, 2, 2)
@@ -159,7 +171,6 @@ plt.subplot(1, 2, 1)
 sns.barplot(x=purpose_avg.values, y=purpose_avg.index)
 plt.title('Average Credit Amount by Purpose')
 plt.xlabel('Average Credit Amount')
-plt.show()
 
 # Box plot for distribution
 plt.subplot(1, 2, 2)
