@@ -31,18 +31,6 @@ sns.histplot(data=df, x='Credit amount', kde=True)
 plt.title('Credit Amount Distribution')
 plt.show()
 
-# Correlation between numerical variables
-corr = df[['Age', 'Job', 'Credit amount', 'Duration']].corr()
-plt.figure(figsize=(8, 6))
-sns.heatmap(corr, annot=True, cmap='coolwarm')
-plt.title('Correlation Matrix')
-plt.show()
-
-# Credit amount vs Duration with Purpose
-plt.figure(figsize=(12, 8))
-sns.scatterplot(data=df, x='Credit amount', y='Duration', hue='Purpose')
-plt.title('Credit Amount vs Duration by Purpose')
-plt.show()
 
 # Check average credit amount by sex and job
 avg_credit = df.groupby(['Sex', 'Job'])['Credit amount'].mean().reset_index()
@@ -84,24 +72,6 @@ sns.boxplot(x='Housing', y='Credit amount', data=df)
 plt.title('Credit Amount by Housing Type')
 plt.show()
 
-# Statistical analysis
-print("Average Credit Amount by Demographics:")
-demo_groups = ['Sex', 'Job', 'Housing']
-for group in demo_groups:
-    print(f"\nBy {group}:")
-    print(df.groupby(group)['Credit amount'].agg(['mean', 'median', 'count']))
-
-# Age correlation
-age_corr = df['Age'].corr(df['Credit amount'])
-print(f"\nCorrelation between Age and Credit Amount: {age_corr:.3f}")
-
-# Create a profile of high-credit customers
-high_credit = df[df['Credit amount'] > df['Credit amount'].quantile(0.75)]
-print("\nProfile of High-Credit Customers:")
-for col in ['Sex', 'Job', 'Housing', 'Age_Group']:
-    print(f"\n{col} distribution in high-credit group:")
-    print(high_credit[col].value_counts(normalize=True).round(3) * 100, "%")
-
 plt.figure(figsize=(12, 6))
 
 # Scatter plot with regression line
@@ -120,26 +90,6 @@ df['Duration_Group'] = pd.cut(df['Duration'], bins=bins)
 avg_by_duration = df.groupby('Duration_Group')['Credit amount'].mean().reset_index()
 sns.barplot(x='Duration_Group', y='Credit amount', data=avg_by_duration)
 plt.title('Average Credit Amount by Duration Group')
-plt.xticks(rotation=45)
-
-plt.show()
-
-# Statistical analysis
-print("Credit Amount Statistics by Duration Groups:")
-print(df.groupby('Duration_Group')['Credit amount'].agg(['mean', 'median', 'count']))
-
-plt.figure(figsize=(12, 6))
-
-# Credit by saving accounts
-plt.subplot(1, 2, 1)
-sns.boxplot(x='Saving accounts', y='Credit amount', data=df)
-plt.title('Credit Amount by Saving Account Status')
-plt.xticks(rotation=45)
-
-# Credit by checking accounts
-plt.subplot(1, 2, 2)
-sns.boxplot(x='Checking account', y='Credit amount', data=df)
-plt.title('Credit Amount by Checking Account Status')
 plt.xticks(rotation=45)
 
 plt.show()
